@@ -15,18 +15,32 @@ int main() {
     _ // Ativa o I/O rápido
     int n, q;
     cin >> n >> q;
-    vector<int> tenisNoEstoque(n);
-
+    // multiset é um conjunto que permite repetições, como ele sempre fica ordenado em uma
+    // árvore autobalanceante, que usa uma árvore rubro negra, conseguimos garantir
+    // inserção e remoção em log n
+    multiset<int> tamanhos;
     for(int i = 0; i < n; i++) {
-        int tenisI;
-        cin >> tenisI;
+        int tamanhoNi;
+        cin >> tamanhoNi;
 
-        tenisNoEstoque[i] = tenisI;
-    } 
+        // inserimos no nosso conjunto, que vai formando nossa árvore rubro negra
+        tamanhos.insert(tamanhoNi);
+    }
 
     while(q--) {
+        int x;
+        cin >> x;
 
-        
+        // lower bound percorre a árvore autobalanceante e encontra o rpimeiro valor >= x
+        auto it = tamanhos.lower_bound(x);
+
+        if(it == tamanhos.end()) {
+            cout << "-1" << endl;
+        } else {
+            cout << *it << endl;
+            tamanhos.erase(it);
+        }
+
     }
 
     return 0;
